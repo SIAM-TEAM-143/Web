@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+body{
+  background:linear-gradient(135deg,#6a0dad,#d147ff);
+  font-family:Poppins,sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.box{
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);
+  padding:30px;
+  width:90%;
+  max-width:380px;
+  border-radius:20px;
+  text-align:center;
+  color:#fff;
+}
+input,select,button{
+  width:100%;
+  padding:13px;
+  margin:10px 0;
+  border:none;
+  border-radius:12px;
+  outline:none;
+}
+input,select{background:rgba(255,255,255,.2);color:#fff}
+button{
+  background:linear-gradient(135deg,#8a2be2,#ff4da6);
+  font-weight:700;
+  color:#fff;
+}
+#msg{margin-top:10px}
+.success{color:#00ff99}
+.error{color:#ff5c5c}
+#recaptcha{margin-top:10px}
+</style>
+</head>
+
+<body>
+<div class="box">
+<h2><i class="fa-solid fa-key"></i> Reset Password</h2>
+
+<select id="method">
+  <option value="">Select Method</option>
+  <option value="email">Email OTP</option>
+  <option value="phone">Phone OTP</option>
+</select>
+
+<input type="email" id="email" placeholder="Enter Email">
+<input type="text" id="phone" placeholder="+8801XXXXXXXXX">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<div id="recaptcha"></div>
+
+<input type="text" id="otp" placeholder="Enter OTP">
+<input type="password" id="newpass" placeholder="New Password">
+<button onclick="verifyOTP()">Change Password</button>
+
+<p id="msg"></p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.3.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyApIiGovH14024loNQMVTsm_qE3H2Fa658",
+  authDomain: "eshopingbddd.firebaseapp.com",
+  projectId: "eshopingbddd"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let confirmationResult;
+
+// ================= SEND OTP =================
+window.sendOTP = async () => {
+  const method = methodEl.value;
+  msg.textContent = "";
+
+  if(method === "email"){
+    const email = emailEl.value;
+    if(!email) return msgError("Email required");
+
+    await sendPasswordResetEmail(auth, email);
+    msgSuccess("Reset link sent to your email 📧");
+  }
+
+  if(method === "phone"){
+    const phone = phoneEl.value;
+    if(!phone) return msgError("Phone number required");
+
+    window.recaptchaVerifier = new RecaptchaVerifier(auth,"recaptcha",{size:"normal"});
+    confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+    msgSuccess("OTP sent to phone 📱");
+  }
+};
+
+// ================= VERIFY OTP =================
+window.verifyOTP = async () => {
+  const otp = otpEl.value;
+  const newPass = newpassEl.value;
+
+  if(!otp || !newPass) return msgError("OTP & password required");
+
+  try{
+    const result = await confirmationResult.confirm(otp);
+    await result.user.updatePassword(newPass);
+    msgSuccess("Password changed successfully ✅");
+  }catch(err){
+    msgError("Invalid OTP ❌");
+  }
+};
+
+const methodEl = document.getElementById("method");
+const emailEl = document.getElementById("email");
+const phoneEl = document.getElementById("phone");
+const otpEl = document.getElementById("otp");
+const msg = document.getElementById("msg");
+
+function msgError(t){msg.textContent=t;msg.className="error";}
+function msgSuccess(t){msg.textContent=t;msg.className="success";}
+</script>
+</body>
+</html>
