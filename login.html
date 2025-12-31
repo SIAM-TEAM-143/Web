@@ -3,107 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIP Login</title>
+<title>Earn Net Login</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body{
   font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top left,#141E30,#243B55);
-  color:#fff;
+  background:linear-gradient(135deg,#6a0dad,#8a2be2,#d147ff);
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
+  margin:0;
   overflow:hidden;
 }
+
 .container{
-  width:100%;
-  max-width:420px;
-  background:rgba(30,30,60,0.95);
-  padding:35px;
-  border-radius:20px;
-  box-shadow:0 0 20px rgba(255,255,255,0.1);
+  width:90%;
+  max-width:400px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  border-radius:25px;
+  padding:40px 30px;
+  text-align:center;
   position:relative;
+  box-shadow:0 0 40px rgba(138,43,226,0.6);
+  border:1px solid rgba(255,255,255,0.2);
+  animation:fadeIn 1s ease;
 }
-h2{text-align:center;color:#ffcc00;margin-bottom:25px;}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.95);}
+  to{opacity:1; transform:scale(1);}
+}
+
+.logo{
+  width:90px;
+  margin-bottom:15px;
+  animation:glow 2.5s infinite alternate;
+}
+@keyframes glow{
+  from{filter:drop-shadow(0 0 10px #8a2be2);}
+  to{filter:drop-shadow(0 0 25px #ff4da6);}
+}
+
+h2{
+  margin-bottom:30px;
+  font-size:24px;
+  font-weight:700;
+  color:#fff;
+  text-shadow:0 0 15px #ff4da6;
+}
+
 input{
   width:100%;
-  padding:12px;
-  margin:10px 0;
+  padding:14px;
+  margin:12px 0;
   border:none;
-  border-radius:10px;
-  background:#2c2c54;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
   color:#fff;
+  font-size:16px;
+  outline:none;
+  transition:0.3s;
 }
-input::placeholder{color:#ccc;}
+input:focus{
+  background:rgba(255,255,255,0.25);
+  box-shadow:0 0 15px #d147ff;
+}
+input::placeholder{
+  color:#eee;
+  opacity:0.8;
+}
+
 button{
   width:100%;
-  padding:12px;
-  margin-top:12px;
+  padding:14px;
   border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#ffcc00,#ff9900);
-  color:#1a1a2e;
-  font-weight:bold;
+  border-radius:12px;
+  background:linear-gradient(135deg,#8a2be2,#ff4da6);
+  color:#fff;
+  font-size:17px;
+  font-weight:700;
   cursor:pointer;
-  position:relative;
-  overflow:hidden;
+  margin-top:10px;
+  transition:0.3s;
+  box-shadow:0 0 15px rgba(255,77,166,0.5);
 }
-button:hover{transform:translateY(-2px);background:linear-gradient(135deg,#ffd633,#ffb733);}
-#msg{text-align:center;margin-top:15px;font-weight:500;}
-.error{color:#ff4d4d;}
+button:hover{
+  background:linear-gradient(135deg,#d147ff,#ff4da6);
+  transform:translateY(-3px);
+  box-shadow:0 0 25px rgba(255,77,166,0.7);
+}
+
+a{
+  color:#ff77c2;
+  text-decoration:none;
+  font-weight:500;
+}
+a:hover{text-decoration:underline;}
+
+#msg{margin-top:12px;font-size:15px;}
+.error{color:#ff5c5c;}
 .success{color:#00ff99;}
-/* Loading overlay */
+
+/* Loading Overlay */
 #loadingOverlay{
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,0.7);
-  display:flex;
+  background:rgba(0,0,0,0.75);
+  display:none;
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  border-radius:20px;
-  display:none;
+  border-radius:25px;
   z-index:10;
 }
 .spinner{
   width:50px;
   height:50px;
   border:5px solid #ccc;
-  border-top-color:#ffcc00;
+  border-top-color:#ff4da6;
   border-radius:50%;
-  animation: spin 1s linear infinite;
+  animation:spin 1s linear infinite;
   margin-bottom:15px;
 }
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
+@keyframes spin{to{transform:rotate(360deg);}}
+#loadingText{
+  font-size:16px;
+  color:#fff;
+  text-shadow:0 0 8px #ff77c2;
+  font-weight:600;
 }
 </style>
 </head>
+
 <body>
 <div class="container">
-<h2><i class="fa-solid fa-right-to-bracket"></i> VIP Login</h2>
-<form id="loginForm">
-<input type="email" id="email" placeholder="Email @gmail.com" required>
-<input type="password" id="password" placeholder="Password" required>
-<button type="submit"><i class="fa-solid fa-lock"></i> Login</button>
-<p id="msg"></p>
-</form>
-<p style="text-align:center;margin-top:10px;">Don't have an account? <a href="register.html" style="color:#ffcc00;">Register</a></p>
+  <img src="logo.png" alt="Earn Net Logo" class="logo">
+  <h2><i class="fa-solid fa-lock"></i> VIP Login</h2>
+  
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <p style="margin-top:8px;"><a href="rest.html">   Forget Password?</a></p>
+    <button type="submit">Login</button>
+    <p id="msg"></p>
+    
+  </form>
+  
+  <p>Don’t have an account? <a href="register.html">Register</a></p>
 
-<!-- Loading Overlay -->
-<div id="loadingOverlay">
-  <div class="spinner"></div>
-  <p id="loadingText">Logging in...</p>
-</div>
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <p id="loadingText">Checking...</p>
+  </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.3.0/firebase-auth.js";
 
-// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyApIiGovH14024loNQMVTsm_qE3H2Fa658",
   authDomain: "eshopingbddd.firebaseapp.com",
@@ -115,61 +180,60 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const auth = getAuth(app);
 
-// Already logged-in check
-const checkUID = localStorage.getItem('uid');
-if(checkUID){
-    window.location = 'dashboard.html';
+const form = document.getElementById("loginForm");
+const msg = document.getElementById("msg");
+const overlay = document.getElementById("loadingOverlay");
+const loadingText = document.getElementById("loadingText");
+
+// already logged in
+const savedUID = localStorage.getItem("uid");
+if (savedUID) {
+  window.location = "dashboard.html";
 }
 
-// Elements
-const form = document.getElementById('loginForm');
-const msg = document.getElementById('msg');
-const overlay = document.getElementById('loadingOverlay');
-const loadingText = document.getElementById('loadingText');
-
-form.addEventListener('submit', async (e)=>{
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  msg.textContent = '';
-  
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+  msg.textContent = "";
+  overlay.style.display = "flex";
+  loadingText.textContent = "Logging in...";
 
-  overlay.style.display = 'flex';
-  loadingText.textContent = 'Checking credentials...';
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  try{
-    const dbRef = ref(db);
-    const snapshot = await get(child(dbRef,"users"));
-    let found = false;
-    let currentUser = null;
+  try {
+    const userCred = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCred.user;
 
-    snapshot.forEach(userSnap=>{
-      const u = userSnap.val();
-      if(u.email===email && u.password===password){
-          found = true;
-          currentUser = u;
-      }
-    });
+    // save firebase uid
+    localStorage.setItem("uid", user.uid);
 
-    if(found){
-        loadingText.textContent = `Welcome ${currentUser.firstName}!`;
-        localStorage.setItem('uid', currentUser.uid);
+    loadingText.textContent = "Login successful!";
+    setTimeout(() => {
+      window.location = "dashboard.html";
+    }, 1500);
 
-        setTimeout(()=>{ window.location='dashboard.html'; },1800);
-    } else {
-        overlay.style.display='none';
-        msg.textContent = "Invalid Email or Password!";
-        msg.className = "error";
+  } catch (error) {
+    overlay.style.display = "none";
+
+    if (error.code === "auth/user-not-found") {
+      msg.textContent = "Account not found!";
+    } 
+    else if (error.code === "auth/wrong-password") {
+      msg.textContent = "Wrong password!";
+    }
+    else if (error.code === "auth/invalid-email") {
+      msg.textContent = "Invalid email!";
+    }
+    else {
+      msg.textContent = error.message;
     }
 
-  }catch(err){
-      overlay.style.display='none';
-      msg.textContent = err.message;
-      msg.className='error';
+    msg.className = "error";
   }
 });
 </script>
+
 </body>
 </html>

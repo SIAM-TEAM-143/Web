@@ -1,66 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <title>Modern Login Page | AsmrProg</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP Register</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#6a0dad,#8a2be2,#d147ff);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0;
+}
+
+/* Main Box */
+.container{
+  width:90%;
+  max-width:400px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  border-radius:25px;
+  padding:35px 30px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 0 40px rgba(138,43,226,0.6);
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+h2{
+  color:#fff;
+  margin-bottom:25px;
+  text-shadow:0 0 15px #ff4da6;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:12px;
+  background:rgba(255,255,255,0.18);
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+
+input::placeholder{color:#eee}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#8a2be2,#ff4da6);
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#msg{margin-top:10px;font-size:14px}
+.error{color:#ff5c5c}
+
+/* Loader */
+.loader{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  border-radius:25px;
+  z-index:10;
+  color:#fff;
+}
+.loader i{font-size:35px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Welcome */
+#welcomeBox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+#welcomeBox div{
+  background:linear-gradient(135deg,#8a2be2,#ff4da6);
+  padding:40px 30px;
+  border-radius:25px;
+  text-align:center;
+  color:#fff;
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container" id="container">
-        <div class="form-container sign-up">
-            <form>
-                <h1>Create Account</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your email for registeration</span>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <button>Sign Up</button>
-            </form>
-        </div>
-        <div class="form-container sign-in">
-            <form>
-                <h1>Sign In</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your email password</span>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <a href="#">Forget Your Password?</a>
-                <button>Sign In</button>
-            </form>
-        </div>
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
-                <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p>
-                    <button class="hidden" id="register">Sign Up</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+  <h2><i class="fa-solid fa-crown"></i> VIP Register</h2>
 
-    <script src="script.js"></script>
+  <form id="registerForm">
+    <input type="text" id="firstName" placeholder="First Name" required>
+    <input type="text" id="lastName" placeholder="Last Name" required>
+    <input type="email" id="email" placeholder="Email (@gmail.com)" required>
+    <input type="text" id="phone" placeholder="Phone (11 digit)" required>
+    <input type="password" id="password" placeholder="Password (8+)" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+    <input type="text" id="referral" placeholder="Referral Code (optional)" readonly>
+    <button type="submit"><i class="fa-solid fa-lock"></i> Register Now</button>
+    <p id="msg"></p>
+  </form>
+
+  <div class="loader" id="loader">
+    <i class="fa-solid fa-spinner"></i>
+    <p>Creating VIP account...</p>
+  </div>
+</div>
+
+<div id="welcomeBox">
+  <div>
+    <h1>👑 VIP SUCCESS</h1>
+    <p>Account Created</p>
+    <p>Redirecting...</p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.3.0/firebase-auth.js";
+
+import { 
+  getDatabase, 
+  ref, 
+  set 
+} from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyApIiGovH14024loNQMVTsm_qE3H2Fa658",
+  authDomain: "eshopingbddd.firebaseapp.com",
+  databaseURL: "https://eshopingbddd-default-rtdb.firebaseio.com",
+  projectId: "eshopingbddd",
+  storageBucket: "eshopingbddd.appspot.com",
+  messagingSenderId: "19777305233",
+  appId: "1:19777305233:web:33f3871db06beeaf129d30"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const form = document.getElementById("registerForm");
+const loader = document.getElementById("loader");
+const msg = document.getElementById("msg");
+const welcomeBox = document.getElementById("welcomeBox");
+const referralInput = document.getElementById("referral");
+
+/* referral from url */
+const refCode = new URLSearchParams(location.search).get("ref");
+if (refCode) referralInput.value = refCode;
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  loader.style.display = "flex";
+  msg.textContent = "";
+
+  const f = form.firstName.value.trim();
+  const l = form.lastName.value.trim();
+  const email = form.email.value.trim();
+  const phone = form.phone.value.trim();
+  const p = form.password.value;
+  const cp = form.confirmPassword.value;
+
+  if (!email.endsWith("@gmail.com")) {
+    loader.style.display = "none";
+    msg.textContent = "Only Gmail allowed";
+    return;
+  }
+
+  if (phone.length !== 11) {
+    loader.style.display = "none";
+    msg.textContent = "Phone must be 11 digit";
+    return;
+  }
+
+  if (p.length < 8 || p !== cp) {
+    loader.style.display = "none";
+    msg.textContent = "Password not match / too short";
+    return;
+  }
+
+  try {
+    //  Firebase AUTH user create
+    const userCred = await createUserWithEmailAndPassword(auth, email, p);
+    const user = userCred.user;
+
+    const uid = user.uid; //  Firebase UID
+    const username = (f + l).toLowerCase() + "_" + uid.slice(0, 6);
+    const profilePic = `https://api.dicebear.com/7.x/identicon/svg?seed=${uid}`;
+
+    //  Save data in Realtime Database
+    await set(ref(db, "users/" + uid), {
+      uid: uid,
+      username: username,
+      firstName: f,
+      lastName: l,
+      email: email,
+      phone: phone,
+      profilePic: profilePic,
+      referral: referralInput.value || "",
+      balance: 0,
+      vip: true,
+      createdAt: Date.now()
+    });
+
+    loader.style.display = "none";
+    welcomeBox.style.display = "flex";
+
+    setTimeout(() => {
+      location.href = "login.html";
+    }, 2500);
+
+  } catch (error) {
+    loader.style.display = "none";
+    msg.textContent = error.message;
+  }
+});
+</script>
+
 </body>
-
 </html>
